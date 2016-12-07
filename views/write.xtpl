@@ -1,0 +1,81 @@
+{{extend ('./shared/_layout.xtpl')}}
+
+{{#block ('content')}}
+<!-- Page Header -->
+<!-- Set your background image for this header on the line below. -->
+<header class="intro-header" style="background-image: url('/img/post-bg.jpg')">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Man must explore, and this is exploration at its greatest</h1>
+          <h2 class="subheading">Problems look mighty small from 150 miles up</h2>
+          <span class="meta">Posted by <a href="#">Start Bootstrap</a> on August 24, 2014</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Main Content -->
+<div class="container">
+  <div class="row">
+    <h1 class="page-header">写文章</h1>
+    <form action="/write/publish" method="post" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label for="title">标题</label>
+            <input id="title" class="form-control" type="text" name="title">
+          </div>
+          <div class="form-group">
+            <label for="content">内容</label>
+            <textarea id="content" class="form-control" name="content" cols="100" rows="20"></textarea>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="comment_status">评论状态</label>
+            <select id="comment_status" name="comment_status" class="form-control">
+              <option value="open">开放</option>
+              <option value="close">关闭</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="image">特色图像</label>
+            {{!-- accept 可以用来限制表单文件选择范围，两种设置方式：mimetype, .ext --!}}
+            <input id="image" name="image" class="form-control" type="file" accept="image/*">
+          </div>
+          <div class="form-group">
+            <button class="btn btn-warning btn-block" type="submit">保存草稿</button>
+            <button class="btn btn-primary btn-block" type="submit">发布</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{{/block}}
+
+{{#block ('scripts')}}
+<script>
+  $(function () {
+    var $fileSelector = $('#image')
+    // 预览的时机
+    $fileSelector.on('change', function () {
+      // 预览的实现方式
+      // console.log(this.files[0])
+      // var reader = new FileReader()
+      // reader.readAsDataURL(this.files[0])
+      // reader.addEventListener('load', function () {
+      //   $fileSelector.after('<img src="' + reader.result + '" width="100%" alt="" />')
+      // })
+
+      // Object URL 可以用来为一个内存中的 blob(二进制数据)创建一个临时的URL地址
+      // URL 的周期等同于 当前创建其 页面的 DOM 周期,页面一关闭，临时地址就没有了
+      var url = URL.createObjectURL(this.files[0])
+      $fileSelector.after('<img src="' + url + '" width="100%" alt="" />')
+    })
+  })
+</script>
+{{/block}}
